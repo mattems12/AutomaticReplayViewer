@@ -35,8 +35,8 @@ namespace AutomaticReplayViewer
             this.numReplays = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.viewerText = new System.Windows.Forms.Label();
-            this.InputRecordHotkey = new TapToSetTextBox();
-            this.InputStopHotkey = new TapToSetTextBox();
+            this.InputRecordHotkey = new AutomaticReplayViewer.TapToSetTextBox();
+            this.InputStopHotkey = new AutomaticReplayViewer.TapToSetTextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
@@ -51,6 +51,7 @@ namespace AutomaticReplayViewer
             this.DisplayAttackData = new System.Windows.Forms.CheckBox();
             this.DisplayInputs = new System.Windows.Forms.CheckBox();
             this.DisplayHitboxes = new System.Windows.Forms.CheckBox();
+            this.brawlhallaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SGSettings.SuspendLayout();
             this.SuspendLayout();
@@ -106,6 +107,7 @@ namespace AutomaticReplayViewer
             // 
             this.InputRecordHotkey.Location = new System.Drawing.Point(12, 171);
             this.InputRecordHotkey.Name = "InputRecordHotkey";
+            this.InputRecordHotkey.ReadOnly = true;
             this.InputRecordHotkey.Size = new System.Drawing.Size(100, 20);
             this.InputRecordHotkey.TabIndex = 3;
             // 
@@ -113,6 +115,7 @@ namespace AutomaticReplayViewer
             // 
             this.InputStopHotkey.Location = new System.Drawing.Point(140, 171);
             this.InputStopHotkey.Name = "InputStopHotkey";
+            this.InputStopHotkey.ReadOnly = true;
             this.InputStopHotkey.Size = new System.Drawing.Size(100, 20);
             this.InputStopHotkey.TabIndex = 4;
             // 
@@ -150,6 +153,7 @@ namespace AutomaticReplayViewer
             this.selectGameToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.skullgirlsToolStripMenuItem,
             this.rivalsOfAetherToolStripMenuItem,
+            this.brawlhallaToolStripMenuItem,
             this.moreOptionsToolStripMenuItem});
             this.selectGameToolStripMenuItem.Name = "selectGameToolStripMenuItem";
             this.selectGameToolStripMenuItem.Size = new System.Drawing.Size(84, 20);
@@ -241,6 +245,13 @@ namespace AutomaticReplayViewer
             this.DisplayHitboxes.Text = "Display Hitboxes";
             this.DisplayHitboxes.UseVisualStyleBackColor = true;
             // 
+            // brawlhallaToolStripMenuItem
+            // 
+            this.brawlhallaToolStripMenuItem.Name = "brawlhallaToolStripMenuItem";
+            this.brawlhallaToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.brawlhallaToolStripMenuItem.Text = "Brawlhalla";
+            this.brawlhallaToolStripMenuItem.Click += new System.EventHandler(this.brawlhallaToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -305,9 +316,6 @@ namespace AutomaticReplayViewer
                 viewerText.Text = newText;
             }
         }
-
-        public System.Windows.Forms.TextBox InputRecordHotkey;
-        public System.Windows.Forms.TextBox InputStopHotkey;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         public Keys RecordHotkey;
@@ -324,6 +332,9 @@ namespace AutomaticReplayViewer
         private ToolStripMenuItem helpToolStripMenuItem;
         private ToolStripMenuItem readmeToolStripMenuItem;
         private ToolStripMenuItem aboutToolStripMenuItem;
+        private ToolStripMenuItem brawlhallaToolStripMenuItem;
+        public TapToSetTextBox InputRecordHotkey;
+        public TapToSetTextBox InputStopHotkey;
     }
 }
 

@@ -29,12 +29,15 @@ namespace AutomaticReplayViewer
             // Initialise ReplayViewer objects
             viewSG = new SGReplayViewer();
             viewROA = new ROAReplayViewer();
+            viewBH = new BHReplayViewer();
 
             // Initialise event handlers
             viewSG.PropertyChanged += ProgressText_PropertyChanged;
             viewSG.LoopEnded += ResetUI;
             viewROA.PropertyChanged += ProgressText_PropertyChanged;
             viewROA.LoopEnded += ResetUI;
+            viewBH.PropertyChanged += ProgressText_PropertyChanged;
+            viewBH.LoopEnded += ResetUI;
 
             // Set initial values of forms from config file
             numReplays.Text = ConfigurationManager.AppSettings["DefaultNumberOfReplays"];
@@ -120,6 +123,9 @@ namespace AutomaticReplayViewer
                 case "Rivals of Aether":
                     viewROA.StartLoop(ReplaysToPlay, ROAUp, ROADown, ROALeft, ROARight, ROAStart, ROAL, RecordHotkey, StopHotkey);
                     break;
+                case "Brawlhalla":
+                    viewBH.StartLoop(ReplaysToPlay, RecordHotkey, StopHotkey);
+                    break;
             }
 
             StopButton.Focus();
@@ -129,6 +135,7 @@ namespace AutomaticReplayViewer
         {
             viewSG.ProcessRunning = false;
             viewROA.ProcessRunning = false;
+            viewBH.ProcessRunning = false;
         }
 
         private void ResetUI(object sender, EventArgs e)
@@ -229,6 +236,7 @@ namespace AutomaticReplayViewer
 
         private SGReplayViewer viewSG;
         private ROAReplayViewer viewROA;
+        private BHReplayViewer viewBH;
         private Keys SGLP = Keys.A;
         private Keys SGLK = Keys.Z;
         private Keys SGMP = Keys.S;
@@ -246,6 +254,7 @@ namespace AutomaticReplayViewer
             currentGame = viewSG.game;
             skullgirlsToolStripMenuItem.Checked = true;
             rivalsOfAetherToolStripMenuItem.Checked = false;
+            brawlhallaToolStripMenuItem.Checked = false;
             SGSettings.Visible = true;
         }
 
@@ -254,6 +263,16 @@ namespace AutomaticReplayViewer
             currentGame = viewROA.game;
             skullgirlsToolStripMenuItem.Checked = false;
             rivalsOfAetherToolStripMenuItem.Checked = true;
+            brawlhallaToolStripMenuItem.Checked = false;
+            SGSettings.Visible = false;
+        }
+
+        private void brawlhallaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            currentGame = viewBH.game;
+            skullgirlsToolStripMenuItem.Checked = false;
+            rivalsOfAetherToolStripMenuItem.Checked = false;
+            brawlhallaToolStripMenuItem.Checked = true;
             SGSettings.Visible = false;
         }
 
