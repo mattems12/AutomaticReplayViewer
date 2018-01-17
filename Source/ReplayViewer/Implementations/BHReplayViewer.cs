@@ -9,6 +9,7 @@ class BHReplayViewer : ReplayViewer
     public BHReplayViewer() : base("Brawlhalla", "Brawlhalla", false)
     {
         Title = (Bitmap) Image.FromFile("Images/Title.png");
+        ReplaysLoaded = (Bitmap)Image.FromFile("Images/ReplaysLoaded.png");
     }
 
     public void StartLoop(int ReplaysToPlay, Keys RecordStart, Keys RecordStop)
@@ -32,6 +33,35 @@ class BHReplayViewer : ReplayViewer
         screen = ScreenGrabber.PrintWindow(hWnd);
 
         menu = ScreenGrabber.Contains(screen, Title);
+
+        if (menu)
+            return;
+        else if (ScreenGrabber.Contains(screen, ReplaysLoaded))
+        {
+            Keyboard.KeyDown(Keys.Enter);
+            Thread.Sleep(50);
+            Keyboard.KeyUp(Keys.Enter);
+        }
+        else if (previousscreen == null)
+        {
+            previousscreen = screen;
+            return;
+        }
+        else if (screen == previousscreen) // Make this better
+        {
+            Keyboard.KeyDown(Keys.Escape);
+            Thread.Sleep(50);
+            Keyboard.KeyUp(Keys.Escape);
+            Thread.Sleep(50);
+            Keyboard.KeyDown(Keys.Up);
+            Thread.Sleep(50);
+            Keyboard.KeyUp(Keys.Up);
+            Thread.Sleep(50);
+            Keyboard.KeyDown(Keys.Enter);
+            Thread.Sleep(50);
+            Keyboard.KeyUp(Keys.Enter);
+        }
+        previousscreen = screen;
     }
 
     protected override void NavigateDefault()
@@ -57,4 +87,5 @@ class BHReplayViewer : ReplayViewer
     private Bitmap screen;
     private Bitmap previousscreen;
     private Bitmap Title;
+    private Bitmap ReplaysLoaded;
 }

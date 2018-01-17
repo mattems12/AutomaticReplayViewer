@@ -35,6 +35,9 @@ class ScreenGrabber
         const Int32 divisor = 4;
         const Int32 epsilon = 10;
 
+        template = template.Clone(new Rectangle(0, 0, template.Width, template.Height), PixelFormat.Format24bppRgb);
+        bmp = bmp.Clone(new Rectangle(0, 0, bmp.Width, bmp.Height), PixelFormat.Format24bppRgb);
+
         ExhaustiveTemplateMatching etm = new ExhaustiveTemplateMatching(0.9f);
 
         TemplateMatch[] tm = etm.ProcessImage(

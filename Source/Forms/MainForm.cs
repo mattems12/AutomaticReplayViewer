@@ -162,6 +162,9 @@ namespace AutomaticReplayViewer
                 case "Rivals of Aether":
                     labelText = viewROA.ProgressText;
                     break;
+                case "Brawlhalla":
+                    labelText = viewBH.ProgressText;
+                    break;
             }
         }
 
