@@ -46,7 +46,7 @@ abstract class ReplayViewer : MemoryReader
             {
                 MenuStateActive(ref menu);
 
-                Thread.Sleep(500);
+                Thread.Sleep(400);
 
                 if (!IsLoading && menu)
                 {

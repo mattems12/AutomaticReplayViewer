@@ -268,7 +268,8 @@
             this.DefaultGame.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.DefaultGame.Items.AddRange(new object[] {
             "Skullgirls",
-            "Rivals of Aether"});
+            "Rivals of Aether",
+            "Brawlhalla"});
             this.DefaultGame.Location = new System.Drawing.Point(190, 168);
             this.DefaultGame.Name = "DefaultGame";
             this.DefaultGame.Size = new System.Drawing.Size(121, 21);

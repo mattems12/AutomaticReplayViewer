@@ -54,6 +54,9 @@ namespace AutomaticReplayViewer
                 case "Rivals of Aether":
                     rivalsOfAetherToolStripMenuItem_Click(rivalsOfAetherToolStripMenuItem, new EventArgs());
                     break;
+                case "Brawlhalla":
+                    brawlhallaToolStripMenuItem_Click(brawlhallaToolStripMenuItem, new EventArgs());
+                    break;
             }
 
             foreach (Control ctrl in this.Controls)

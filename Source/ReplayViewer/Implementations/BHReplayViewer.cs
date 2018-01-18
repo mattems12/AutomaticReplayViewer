@@ -1,4 +1,5 @@
-﻿using InputManager;
+﻿using AForge.Imaging.Filters;
+using InputManager;
 using System;
 using System.Drawing;
 using System.Threading;
@@ -9,7 +10,6 @@ class BHReplayViewer : ReplayViewer
     public BHReplayViewer() : base("Brawlhalla", "Brawlhalla", false)
     {
         Title = (Bitmap) Image.FromFile("Images/Title.png");
-        ReplaysLoaded = (Bitmap)Image.FromFile("Images/ReplaysLoaded.png");
     }
 
     public void StartLoop(int ReplaysToPlay, Keys RecordStart, Keys RecordStop)
@@ -36,18 +36,16 @@ class BHReplayViewer : ReplayViewer
 
         if (menu)
             return;
-        else if (ScreenGrabber.Contains(screen, ReplaysLoaded))
-        {
-            Keyboard.KeyDown(Keys.Enter);
-            Thread.Sleep(50);
-            Keyboard.KeyUp(Keys.Enter);
-        }
-        else if (previousscreen == null)
+
+        if (previousscreen == null)
         {
             previousscreen = screen;
             return;
         }
-        else if (screen == previousscreen) // Make this better
+
+        Difference diff = new Difference(screen);
+
+        if (ScreenGrabber.IsBlack(diff.Apply(previousscreen)))
         {
             Keyboard.KeyDown(Keys.Escape);
             Thread.Sleep(50);
@@ -60,15 +58,25 @@ class BHReplayViewer : ReplayViewer
             Keyboard.KeyDown(Keys.Enter);
             Thread.Sleep(50);
             Keyboard.KeyUp(Keys.Enter);
+            return;
         }
         previousscreen = screen;
     }
 
     protected override void NavigateDefault()
     {
-        Mouse.Move(1320,43);    // TODO - account for possible different resolutions
+        Mouse.Move(1320, 43);    // TODO - account for possible different resolutions
         Thread.Sleep(20);
         Mouse.PressButton(Mouse.MouseKeys.Left);
+
+        Thread.Sleep(100);
+
+        // TODO - navigate to appropriate replay
+
+        Keyboard.KeyDown(Keys.Enter);
+        Thread.Sleep(50);
+        Keyboard.KeyUp(Keys.Enter);
+        Mouse.Move(9999, 0);
     }
 
     protected override void GameNotOpen()
@@ -87,5 +95,4 @@ class BHReplayViewer : ReplayViewer
     private Bitmap screen;
     private Bitmap previousscreen;
     private Bitmap Title;
-    private Bitmap ReplaysLoaded;
 }
