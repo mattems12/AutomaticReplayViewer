@@ -22,8 +22,19 @@ class BHReplayViewer : ReplayViewer
             previousscreen = ScreenGrabber.PrintWindow(hWnd);
             ResX = previousscreen.Width;
             ResY = previousscreen.Height;
+            
+            if ((double)ResX/ResY > 4.0/3.0)
+            {   //Scaling factor for normal resolutions
+                ScalingFactor = ResY / 1080.0;
+                Res4by3 = false;
+            }
+            else
+            {   //Scaling factor for 4:3 resolutions
+                ScalingFactor = ResX / (1080.0 * 1.5);
+                Res4by3 = true;
+            }
 
-            ResizeBicubic Resize = new ResizeBicubic(220*ResY/1080, 146*ResY/1080);
+            ResizeBilinear Resize = new ResizeBilinear( Convert.ToInt32(220 *ScalingFactor) , Convert.ToInt32(146 *ScalingFactor) );
             Title = Resize.Apply(Title);
 
             LoopThread = new Thread(() => PlaybackLoop(ReplaysToPlay, RecordStart, RecordStop));
@@ -41,29 +52,8 @@ class BHReplayViewer : ReplayViewer
 
         menu = ScreenGrabber.Contains(screen, Title);
 
-        /*
-         List of resolutions on my machine that this wont work correctly for
-         1280x1024
-         1280x960
-         1152x864
-         1024x768
-         800x600
-         None of these are 16:9
-         I think this is because the game decides to leave the 'bars' to fill out the vertical axis rather than the horizontal axis
-         Therefore, the title image that the game screen is compared to is incorrectly scaled and the condition is never met
-         TODO - figure out how the game decides whether to fill out the vertical or horizontal axis
-                 - maybe it will decide to fill out the vertical if the screen is small enough?
-                 - in the cases where it doesnt work the screen is filled out w black bars
-                 - most of these are 4:3 hmmm
-        */
         if (menu)
             return;
-
-        if (previousscreen == null)
-        {
-            previousscreen = screen;
-            return;
-        }
 
         Difference diff = new Difference(screen);
 
@@ -87,7 +77,16 @@ class BHReplayViewer : ReplayViewer
 
     protected override void NavigateDefault()
     {
-        Mouse.Move(ResX - 65*ResY/1080, 61*ResY/1080);    // TODO - account for possible different resolutions - better but still incomplete
+        // Click on replay button
+        if (!Res4by3)
+        {   // normal resolutions
+            Mouse.Move(Convert.ToInt32(ResX - 65 * ScalingFactor), Convert.ToInt32(61 * ScalingFactor));
+        }
+        else
+        {   // 4:3 resolutions
+            Mouse.Move(Convert.ToInt32(ResX - 65 * ScalingFactor), Convert.ToInt32(61 * ScalingFactor + ResY/2 - ResX/3));
+        }
+        
         Thread.Sleep(20);
         Mouse.PressButton(Mouse.MouseKeys.Left);
 
@@ -113,8 +112,10 @@ class BHReplayViewer : ReplayViewer
 
     }
 
+    private double ScalingFactor;
     private int ResX;
     private int ResY;
+    private bool Res4by3;
     private bool NoErrors;
     private Bitmap screen;
     private Bitmap previousscreen;
